@@ -49,18 +49,28 @@ public class sqlife {
 	public void getData(String queary){
 		ResultSet output = null;
 		System.out.println(queary);
+
 		try{
 			if(queary.charAt(0)=='s'||queary.charAt(0)=='S'){
-				System.out.println("input");
+				//System.out.println("input");
 				output = stat.executeQuery(queary);
 				while((output!=null) && (output.next())){
 					System.out.println(output.getString(1));
 				}
 			}else{
-				stat.executeQuery(queary);
+				stat.execute(queary);
 			}
 		}catch(Exception e){
-			System.out.println("error");
+			System.out.println("queary error");
 		}
+		if(output!=null){
+			try {
+				output.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("System error");
+			}
+		}
+
 	}
 }
