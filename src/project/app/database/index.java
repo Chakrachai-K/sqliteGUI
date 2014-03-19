@@ -3,8 +3,12 @@ package project.app.database;
 public class index {
 
 	public static void main(String[] args) {
-		new sqlife().createDatabase("./data.db");
-
+		sqlife s = new sqlife();
+		s.open("./data.db");
+		//s.queary("create table name ('name')");
+		s.getData("insert into name values('bbbbb')");
+		s.getData("select *from name");
+		
 	}
 
 }
