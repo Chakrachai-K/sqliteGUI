@@ -1,17 +1,20 @@
-package project.app.database;
+package project.app.gui;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import project.app.database.*;
+import project.app.console.*;
+
 public class index {
 
 	public static void main(String[] args) throws SQLException {
-		sqlife s = new sqlife();
+		conSql s = new conSql();
 		s.open("./data.db");
 		//s.queary("create table name ('name')");
 		//s.queary("insert into name values('ccccc')");
 		//s.queary("delete from name");
-		s.queary("select * from name");
+		s.select("*","name","");
 		ArrayList<String> data = s.getOutput();
 		//System.out.println(data.size());
 		
