@@ -7,11 +7,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class sqlife {
 	private String dbpart;
 	private Connection connect;
 	private Statement stat;
+	private String queary;
+	private ResultSet output = null;
 
 	private void openDatabase() {
 		try {
@@ -46,31 +49,43 @@ public class sqlife {
 		openDatabase();
 	}
 	
-	public void getData(String queary){
-		ResultSet output = null;
+	public void queary(String input){
+		queary = input;
+		getData();
+	}
+	
+	private void getData(){
+		
 		System.out.println(queary);
 
 		try{
 			if(queary.charAt(0)=='s'||queary.charAt(0)=='S'){
 				//System.out.println("input");
 				output = stat.executeQuery(queary);
-				while((output!=null) && (output.next())){
-					System.out.println(output.getString(1));
-				}
+				
 			}else{
 				stat.execute(queary);
+				System.out.println();
 			}
 		}catch(Exception e){
 			System.out.println("queary error");
 		}
-		if(output!=null){
-			try {
-				output.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				System.out.println("System error");
+		
+	}
+	
+	public ArrayList<String> getOutput(){
+		int i = 0;
+		ArrayList<String> s = new ArrayList<>();
+		try {
+			while((output!=null) && (output.next())){
+				System.out.println(output.getString(1));
+				s.add(output.getString(1));
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("No data");
 		}
-
+		return s;
+		
 	}
 }
