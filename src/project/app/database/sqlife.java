@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class sqlife {
 	private Statement stat;
 	private String queary;
 	private ResultSet output = null;
+	private ResultSetMetaData detaleOutput = null;
+	private ArrayList<String> rowname = null;
 
 	private void openDatabase() {
 		try {
@@ -57,24 +60,32 @@ public class sqlife {
 	private void getData(){
 		
 		System.out.println(queary);
-
+		int i = 1;
 		try{
 			if(queary.charAt(0)=='s'||queary.charAt(0)=='S'){
 				//System.out.println("input");
 				output = stat.executeQuery(queary);
+				detaleOutput = output.getMetaData();
+				
+				while(detaleOutput.getColumnLabel(1) != null){
+					System.out.println(detaleOutput.getColumnLabel(i)+"");
+					i++;
+				}
+				
 				
 			}else{
 				stat.execute(queary);
 				System.out.println();
 			}
 		}catch(Exception e){
-			System.out.println("queary error");
+			e.printStackTrace();
+			//System.out.println("queary error");
 		}
 		
 	}
 	
 	public ArrayList<String> getOutput(){
-		int i = 0;
+
 		ArrayList<String> s = new ArrayList<>();
 		try {
 			while((output!=null) && (output.next())){
@@ -86,6 +97,14 @@ public class sqlife {
 			System.out.println("No data");
 		}
 		return s;
+		
+	}
+	public ArrayList<String> rowName() throws SQLException{
+		
+		
+		//System.out.println(output.);
+		
+		return null;
 		
 	}
 }
