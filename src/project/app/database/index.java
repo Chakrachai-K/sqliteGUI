@@ -13,11 +13,18 @@ public class index {
 		//s.queary("delete from name");
 		s.queary("select * from name");
 		ArrayList<String> data = s.getOutput();
-		System.out.println(data.size());
+		//System.out.println(data.size());
+		
 		for(int i=0;i<data.size();i++){
 			System.out.println(data.get(i));
 		}
-		s.rowName();
+		
+		ArrayList<String> rowname = s.rowName();
+		
+		for(int j=0;j<rowname.size();j++){
+			System.out.println(rowname.get(j));
+		}
+		
 	}
 
 }

@@ -17,7 +17,8 @@ public class sqlife {
 	private String queary;
 	private ResultSet output = null;
 	private ResultSetMetaData detaleOutput = null;
-	private ArrayList<String> rowname = null;
+	private ArrayList<String> rowname = new ArrayList<>();
+	private ArrayList<String> columnName = new ArrayList<>();
 
 	private void openDatabase() {
 		try {
@@ -66,45 +67,50 @@ public class sqlife {
 				//System.out.println("input");
 				output = stat.executeQuery(queary);
 				detaleOutput = output.getMetaData();
-				
-				while(detaleOutput.getColumnLabel(1) != null){
-					System.out.println(detaleOutput.getColumnLabel(i)+"");
-					i++;
+				try{
+					
+					while(detaleOutput.getColumnLabel(i) != null){
+						
+						System.out.println(detaleOutput.getColumnLabel(i)+"");
+						rowname.add(detaleOutput.getCatalogName(i));
+						
+						try {
+							while((output!=null) && (output.next())){
+								System.out.println(output.getString(1));
+								columnName.add(output.getString(i));
+							}
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							System.out.println("No data");
+						}
+						
+						i++;
+					}
 				}
-				
+				catch(Exception e){
+					
+				}
 				
 			}else{
 				stat.execute(queary);
 				System.out.println();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			//System.out.println("queary error");
+			//e.printStackTrace();
+			System.out.println("queary error");
 		}
 		
 	}
 	
 	public ArrayList<String> getOutput(){
 
-		ArrayList<String> s = new ArrayList<>();
-		try {
-			while((output!=null) && (output.next())){
-				System.out.println(output.getString(1));
-				s.add(output.getString(1));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("No data");
-		}
-		return s;
+		return columnName;
 		
 	}
 	public ArrayList<String> rowName() throws SQLException{
 		
 		
-		//System.out.println(output.);
-		
-		return null;
+		return rowname;
 		
 	}
 }
